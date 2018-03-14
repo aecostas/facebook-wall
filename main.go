@@ -68,7 +68,13 @@ func WordCount(posts []Posts) map[string]int {
 
 	for i:=0; i<len(posts); i++ {
 		for _, f := range strings.Fields(posts[i].Message) {
-			m[f] += 1
+			if len(f) < 3 {
+				continue
+			}
+
+			f = strings.TrimRight(f, "!?,.:)\"")
+
+			m[strings.ToLower(f)] += 1
 		}
 	}
 
@@ -79,7 +85,7 @@ func main() {
 	var container *Container
 	var posts []Posts
 
-	var eaccessToken string = "EAACEdEose0cBAJnsrzGhIo2h42ZCFhzg9xWkrSnI8Y1yNZCTWhLzXWq12regA538bvDfzmub1GJSS2lDDr8ZCLNrCcZAb7QTUV3mbVIfKSh3BQoWoM0p9fEyM5QEyxyLDHQ0GPMZB0xaIUY2ZCxjqf3pZCMvvp82vW8xfIBlZAqaesxGBJ7g09ojmZBVAQIRSMlguRH81uuNZBygZDZD"
+	var eaccessToken string = "EAACEdEose0cBAHjljETonkim8kDzR35dJZA66avqXttqoo88kyiJfDbkE2f7DvURkOEZCqkCioNVRZAUR6TVvPc0Jtf0mmm0ENF7x6hgVoDT1oed1akiZCkub9x53LgwZBLReZBmCD3ZByHd2b49Aftoz6qcsMn05CRleRKfIMmp8uruBrCBJx6wt3oxNqVnJAd1lA0nLvDWAZDZD"
 	var url string = "https://graph.facebook.com/v2.12/10153862771857156/posts?__paging_token=enc_AdBLO4Ynl6ZA7DY4O68GKcR2SGufSw4fJOK3AeWwfZAKZCOxKDhNmTnBshouGFiAZBcj8Kyelu24hvr8y7o5aUiLIIKh&access_token=" + eaccessToken
 
 	for {
@@ -104,7 +110,7 @@ func main() {
 
 	sort.Sort(p)
 	for _, k := range p {
-		fmt.Println("%s: %s", k.Key, k.Value)
+		fmt.Println(k.Key, k.Value)
 	}
 
 }
